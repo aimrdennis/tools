@@ -1,1 +1,103 @@
+---
+import { SITE } from "../lib/site";
 
+import {
+  getRelatedPosts,
+  formatDate
+} from "../lib/utils";
+
+const {
+  posts = [],
+  currentSlug = "",
+  category = ""
+} = Astro.props;
+
+const relatedPosts =
+  getRelatedPosts(
+    posts,
+    currentSlug,
+    category,
+    3
+  );
+---
+
+{relatedPosts.length > 0 && (
+
+<section class="related-posts">
+
+  <h2 class="related-posts-title">
+
+    Artikel Terkait
+
+  </h2>
+
+  <div class="related-posts-grid">
+
+    {relatedPosts.map((post) => {
+
+      const imageUrl =
+        SITE.url(`/api/og/${post.slug}.svg`);
+
+      return (
+
+        <article class="related-card">
+
+          <a
+            href={`/blog/${post.slug}/`}
+            aria-label={post.data.title}>
+
+            <!-- image -->
+
+            <img
+              src={imageUrl}
+              alt={post.data.title}
+              loading="lazy"
+              width="1200"
+              height="630"
+            />
+
+            <!-- content -->
+
+            <div class="related-card-content">
+
+              <p class="badge">
+
+                {post.data.category || "News"}
+
+              </p>
+
+              <h3 class="related-card-title">
+
+                {post.data.title}
+
+              </h3>
+
+              <p class="news-card-description">
+
+                {post.data.description}
+
+              </p>
+
+              <div class="news-card-meta">
+
+                <span>
+                  {formatDate(post.data.date)}
+                </span>
+
+              </div>
+
+            </div>
+
+          </a>
+
+        </article>
+
+      );
+
+    })}
+
+  </div>
+
+</section>
+
+)}
