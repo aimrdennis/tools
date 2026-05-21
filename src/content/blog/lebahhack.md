@@ -1,10 +1,19 @@
 ---
 title: "Lebahhack: Eksperimen Web Modern, SEO, dan Automasi"
+
 description: "Lebahhack membahas pengembangan web modern, Astro, Cloudflare, SEO, dan automasi digital."
-pubDate: 2026-05-18
-heroImage: "/images/lebahhack-cover.jpg"
-tags: ["astro", "seo", "cloudflare", "webdev"]
+
+date: 2026-05-18
+
 category: "Technology"
+
+tags:
+  - astro
+  - seo
+  - cloudflare
+  - webdev
+
+status: publish
 ---
 
 # Lebahhack
