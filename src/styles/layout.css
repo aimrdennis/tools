@@ -355,18 +355,27 @@ gap:20px
 ========================= */
 
 .mobile-menu-button{
-display:none;
+  display:none;
+}
 
-width:46px;
-height:46px;
+@media(max-width:768px){
 
-border:none;
+  .mobile-menu-button{
+    display:flex;
+  }
 
-border-radius:14px;
+  .nav-inner{
+    display:none;
 
-background:#f3f4f6;
+    flex-direction:column;
 
-cursor:pointer
+    width:100%;
+  }
+
+  .nav-inner.active{
+    display:flex;
+  }
+
 }
 
 /* =========================
