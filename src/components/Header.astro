@@ -1,34 +1,136 @@
-
 ---
 import { SITE } from "../lib/site";
 ---
 
-<header>
-  <a href="/">{SITE.title}</a>
+<header class="site-header">
 
-  <nav>
-    {
-      SITE.menu.map((item) => (
-        <a href={item.url}>{item.name}</a>
-      ))
-    }
+  <!-- topbar -->
+
+  <div class="header-top">
+
+    <div class="container header-top-inner">
+
+      <div class="top-links">
+
+        <a href="/">
+          Home
+        </a>
+
+        <a href="/blog/">
+          Blog
+        </a>
+
+        <a href="/category/seo/">
+          SEO
+        </a>
+
+        <a href="/category/ai/">
+          AI
+        </a>
+
+      </div>
+
+      <div class="top-links">
+
+        <a
+          href={SITE.social.github}
+          target="_blank"
+          rel="noopener noreferrer">
+          Github
+        </a>
+
+        <a
+          href={`https://twitter.com/${SITE.social.twitter.replace("@","")}`}
+          target="_blank"
+          rel="noopener noreferrer">
+          Twitter
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- main header -->
+
+  <div class="container">
+
+    <div class="header-main">
+
+      <!-- logo -->
+
+      <a
+        href="/"
+        class="logo"
+        aria-label={SITE.title}>
+
+        <span>Ai</span>
+        Mr Dennis
+
+      </a>
+
+      <!-- search -->
+
+      <form
+        class="search-form"
+        action="/search/"
+        method="GET">
+
+        <input
+          class="search-input"
+          type="search"
+          name="q"
+          placeholder="Cari artikel SEO, AI, Crypto..."
+          aria-label="Search"
+        />
+
+        <button
+          class="search-button"
+          type="submit">
+
+          Search
+
+        </button>
+
+      </form>
+
+      <!-- mobile button -->
+
+      <button
+        class="mobile-menu-button"
+        aria-label="Menu">
+
+        ☰
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- navbar -->
+
+  <nav class="navbar">
+
+    <div class="container">
+
+      <div class="nav-inner">
+
+        {SITE.menu.map((item) => (
+
+          <a href={item.url}>
+
+            {item.name}
+
+          </a>
+
+        ))}
+
+      </div>
+
+    </div>
+
   </nav>
-</header>
 
-<style>
-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:1rem;
-  border-bottom:1px solid #ddd;
-}
-nav{
-  display:flex;
-  gap:1rem;
-}
-a{
-  text-decoration:none;
-  color:#111;
-}
-</style>
+</header>
