@@ -1,103 +1,77 @@
 ---
-import { SITE } from "../lib/site";
-
 import {
-  getRelatedPosts,
-  formatDate
+  slugify
 } from "../lib/utils";
 
 const {
-  posts = [],
-  currentSlug = "",
-  category = ""
+  html = ""
 } = Astro.props;
 
-const relatedPosts =
-  getRelatedPosts(
-    posts,
-    currentSlug,
-    category,
-    3
-  );
+const regex =
+  /^(##|###|####)\s+(.*)$/gm;
+
+const items = [];
+
+let match;
+
+while ((match = regex.exec(html)) !== null) {
+
+  const level =
+    match[1].length;
+
+  const text =
+    match[2].trim();
+
+  items.push({
+
+    level,
+
+    text,
+
+    id:
+      slugify(text)
+
+  });
+
+}
 ---
 
-{relatedPosts.length > 0 && (
+{items.length > 0 && (
 
-<section class="related-posts">
+<details
+  class="toc"
+  open>
 
-  <h2 class="related-posts-title">
+  <summary class="toc-title">
 
-    Artikel Terkait
+    <span>
+      📑 Daftar Isi
+    </span>
 
-  </h2>
+    <span class="toc-toggle">
+    </span>
 
-  <div class="related-posts-grid">
+  </summary>
 
-    {relatedPosts.map((post) => {
+  <ul>
 
-      const imageUrl =
-        SITE.url(`/api/og/${post.slug}.svg`);
+    {items.map((item) => (
 
-      return (
+      <li
+        class={`toc-level-${item.level}`}>
 
-        <article class="related-card">
+        <a href={`#${item.id}`}>
 
-          <a
-            href={`/blog/${post.slug}/`}
-            aria-label={post.data.title}>
+          {item.text}
 
-            <!-- image -->
+        </a>
 
-            <img
-              src={imageUrl}
-              alt={post.data.title}
-              loading="lazy"
-              width="1200"
-              height="630"
-            />
+      </li>
 
-            <!-- content -->
+    ))}
 
-            <div class="related-card-content">
+  </ul>
 
-              <p class="badge">
-
-                {post.data.category || "News"}
-
-              </p>
-
-              <h3 class="related-card-title">
-
-                {post.data.title}
-
-              </h3>
-
-              <p class="news-card-description">
-
-                {post.data.description}
-
-              </p>
-
-              <div class="news-card-meta">
-
-                <span>
-                  {formatDate(post.data.date)}
-                </span>
-
-              </div>
-
-            </div>
-
-          </a>
-
-        </article>
-
-      );
-
-    })}
-
-  </div>
-
-</section>
+</details>
 
 )}
