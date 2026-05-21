@@ -62,7 +62,12 @@ const imageUrl = slug
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={imageUrl} />
-
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={SITE.title}
+  href={SITE.url("/rss.xml")}
+/>
 <!-- preload -->
 <link
   rel="preload"
