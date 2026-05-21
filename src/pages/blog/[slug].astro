@@ -1,7 +1,8 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import { SITE } from '../../lib/site';
-
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import "../styles/blog.css";
 import HeaderSection1 from '../../components/sec/HeaderSection1.astro';
 import HeaderSection2 from '../../components/sec/HeaderSection2.astro';
 import HeaderSection3 from '../../components/sec/HeaderSection3.astro';
@@ -26,7 +27,7 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content, headings } = await render(post);
-
+const posts = await getCollection("blog");
 ---
 
 <MainLayout
@@ -80,83 +81,14 @@ const { Content, headings } = await render(post);
 
       <Content />
 
+
+<RelatedPosts
+  posts={posts}
+  currentSlug={post.slug}
+/>
+
     </article>
 
   </main>
 
-<style>
-.toc .depth-3{
-padding-left:14px;
-font-size:14px;
-}
-
-.toc .depth-4{
-padding-left:28px;
-font-size:13px;
-opacity:.9;
-}
-
-
-.toc{
-background:var(--card);
-border:1px solid var(--border);
-border-radius:18px;
-padding:16px 20px;
-margin:28px 0;
-box-shadow:var(--shadow)
-}
-
-.toc-title{
-cursor:pointer;
-font-weight:700;
-font-size:16px;
-color:var(--text);
-list-style:none;
-outline:none;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px
-}
-
-.toc-title::-webkit-details-marker{
-display:none
-}
-
-.toc ul{
-margin:16px 0 0;
-padding-left:18px
-}
-
-.toc li{
-margin:10px 0;
-color:var(--muted)
-}
-
-.toc a{
-color:var(--text);
-text-decoration:none;
-transition:.2s
-}
-
-.toc a:hover{
-color:var(--primary);
-padding-left:2px
-}
-
-.toc-toggle{
-font-size:0
-}
-
-.toc-toggle::before{
-content:"Buka";
-font-size:13px;
-color:var(--muted)
-}
-
-.toc[open] .toc-toggle::before{
-content:"Tutup";
-color:var(--primary)
-}
-</style>
 </MainLayout>
