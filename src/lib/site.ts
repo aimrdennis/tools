@@ -2,9 +2,9 @@
 export const SITE = {
   name: "LebahHack",
 
-  title: "Lebah Hack",
+  title: "Ai Mr Dennis",
 
-  description: "Website SEO modern",
+  description: "Ai Mr Dennis Website modern",
 
   author: "OpenPobo",
 
@@ -16,7 +16,7 @@ export const SITE = {
 
   baseUrl:
     import.meta.env.SITE_URL ||
-    "https://lebahhack.net",
+    "https://tools.aimrdennis.com",
 
   url(path = "") {
     return `${this.baseUrl}/${path}`
