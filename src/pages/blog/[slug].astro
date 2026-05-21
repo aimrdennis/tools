@@ -1,7 +1,7 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import { SITE } from '../../lib/site';
-import RelatedPosts from "../../components/RelatedPosts.astro";
+
 
 import HeaderSection1 from '../../components/sec/HeaderSection1.astro';
 import HeaderSection2 from '../../components/sec/HeaderSection2.astro';
@@ -82,10 +82,6 @@ const posts = await getCollection("blog");
       <Content />
 
 
-<RelatedPosts
-  posts={posts}
-  currentSlug={post.slug}
-/>
 
     </article>
 
