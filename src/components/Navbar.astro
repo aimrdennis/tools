@@ -1,1 +1,54 @@
+---
+import { SITE } from "../lib/site";
 
+const pathname = Astro.url.pathname;
+---
+
+<nav class="navbar">
+
+  <div class="container">
+
+    <div class="nav-inner">
+
+      <a
+        href="/"
+        class={pathname === "/" ? "active" : ""}>
+
+        Home
+
+      </a>
+
+      <a
+        href="/blog/"
+        class={pathname.startsWith("/blog")
+          ? "active"
+          : ""}>
+
+        Blog
+
+      </a>
+
+      {SITE.menu.map((item) => {
+
+        const active =
+          pathname.startsWith(item.url);
+
+        return (
+
+          <a
+            href={item.url}
+            class={active ? "active" : ""}>
+
+            {item.name}
+
+          </a>
+
+        );
+
+      })}
+
+    </div>
+
+  </div>
+
+</nav>
