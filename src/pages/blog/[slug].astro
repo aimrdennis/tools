@@ -53,9 +53,13 @@ const {
 // render markdown
 
 const {
-  Content,
-  remarkPluginFrontmatter
+  Content
 } = await render(post);
+
+// markdown body for toc
+
+const html =
+  post.body;
 
 // all posts
 
@@ -71,14 +75,6 @@ posts =
 
 posts =
   sortPosts(posts);
-
-const html = post.body;
-
-
-// html for toc + faq
-
-const html =
-  remarkPluginFrontmatter?.html || "";
 
 // featured image
 
@@ -205,7 +201,6 @@ const breadcrumbs = {
   type="article"
   image={imageUrl}
   slug={post.slug}
-  html={html}
   articleSchema={articleSchema}
   breadcrumbs={breadcrumbs}
 >
@@ -224,21 +219,11 @@ const breadcrumbs = {
           Home
         </a>
 
-        <span>
-          /
-        </span>
+        <span>/</span>
 
         <a href="/blog/">
           Blog
         </a>
-
-        <span>
-          /
-        </span>
-
-        <span>
-          {post.data.title}
-        </span>
 
       </div>
 
@@ -258,7 +243,7 @@ const breadcrumbs = {
 
       </h1>
 
-      <!-- description -->
+      <!-- desc -->
 
       <p class="article-description">
 
@@ -302,6 +287,7 @@ const breadcrumbs = {
           alt={post.data.title}
           width="1200"
           height="630"
+          loading="eager"
         />
 
       </div>
@@ -312,9 +298,15 @@ const breadcrumbs = {
 
     <div class="article-layout">
 
-      <!-- content -->
+      <!-- main -->
 
       <div class="article-main">
+
+        <!-- toc -->
+
+        <TOC html={html} />
+
+        <!-- content -->
 
         <div class="article-content">
 
@@ -334,21 +326,11 @@ const breadcrumbs = {
 
       <!-- sidebar -->
 
-      <aside>
+      <aside class="article-sidebar">
 
-        <!-- toc -->
-
-        <TOC html={html} />
-
-        <!-- trending -->
-
-        <div class="mt-30">
-
-          <Trending
-            posts={posts}
-          />
-
-        </div>
+        <Trending
+          posts={posts}
+        />
 
       </aside>
 
