@@ -50,33 +50,29 @@ const {
   post
 } = Astro.props;
 
-// render markdown
+// render
 
 const {
   Content
 } = await render(post);
 
-// markdown body for toc
+// toc markdown
 
 const html =
   post.body;
 
-// all posts
+// posts
 
 let posts =
   await getCollection("blog");
 
-// publish only
-
 posts =
   publishedPosts(posts);
-
-// latest first
 
 posts =
   sortPosts(posts);
 
-// featured image
+// image
 
 const imageUrl =
   SITE.url(`/api/og/${post.slug}.svg`);
@@ -99,9 +95,11 @@ const readTime =
 
 const articleSchema = {
 
-  "@context": "https://schema.org",
+  "@context":
+    "https://schema.org",
 
-  "@type": "Article",
+  "@type":
+    "Article",
 
   headline:
     post.data.title,
@@ -117,7 +115,8 @@ const articleSchema = {
 
   author: {
 
-    "@type": "Person",
+    "@type":
+      "Person",
 
     name:
       post.data.author ||
@@ -127,7 +126,8 @@ const articleSchema = {
 
   publisher: {
 
-    "@type": "Organization",
+    "@type":
+      "Organization",
 
     name:
       SITE.title
@@ -205,11 +205,11 @@ const breadcrumbs = {
   breadcrumbs={breadcrumbs}
 >
 
-  <article class="article-page">
+  <div class="article-wrapper">
 
-    <!-- header -->
+    <!-- article -->
 
-    <header class="article-header">
+    <article class="article-container">
 
       <!-- breadcrumb -->
 
@@ -219,11 +219,21 @@ const breadcrumbs = {
           Home
         </a>
 
-        <span>/</span>
+        <span>
+          /
+        </span>
 
         <a href="/blog/">
           Blog
         </a>
+
+        <span>
+          /
+        </span>
+
+        <span>
+          {post.data.category}
+        </span>
 
       </div>
 
@@ -255,19 +265,19 @@ const breadcrumbs = {
 
       <div class="article-meta">
 
-        <div class="article-meta-item">
+        <div class="article-meta-left">
 
-          📅 {publishDate}
+          <span>
+            📅 {publishDate}
+          </span>
+
+          <span>
+            ⏱️ {readTime}
+          </span>
 
         </div>
 
-        <div class="article-meta-item">
-
-          ⏱️ {readTime}
-
-        </div>
-
-        <div class="article-meta-item">
+        <div class="article-meta-right">
 
           ✍️ {
             post.data.author ||
@@ -280,7 +290,7 @@ const breadcrumbs = {
 
       <!-- image -->
 
-      <div class="article-featured-image">
+      <div class="article-image">
 
         <img
           src={imageUrl}
@@ -292,50 +302,74 @@ const breadcrumbs = {
 
       </div>
 
-    </header>
+      <!-- layout -->
 
-    <!-- layout -->
+      <div class="article-layout">
 
-    <div class="article-layout">
+        <!-- main -->
 
-      <!-- main -->
+        <main class="article-main">
 
-      <div class="article-main">
+          <!-- toc -->
 
-        <!-- toc -->
+          <TOC html={html} />
 
-        <TOC html={html} />
+          <!-- content -->
 
-        <!-- content -->
+          <div class="article-content">
 
-        <div class="article-content">
+            <Content />
 
-          <Content />
+          </div>
 
-        </div>
+          <!-- tags -->
 
-        <!-- related -->
+          {post.data.tags?.length > 0 && (
 
-        <RelatedPosts
-          posts={posts}
-          currentSlug={post.slug}
-          category={post.data.category}
-        />
+          <div class="article-tags">
+
+            {post.data.tags.map((tag) => (
+
+              <a href={`/tag/${tag}/`}>
+
+                #{tag}
+
+              </a>
+
+            ))}
+
+          </div>
+
+          )}
+
+          <!-- related -->
+
+          <RelatedPosts
+            posts={posts}
+            currentSlug={post.slug}
+            category={post.data.category}
+          />
+
+        </main>
+
+        <!-- sidebar -->
+
+        <aside class="article-sidebar">
+
+          <div class="sidebar-sticky">
+
+            <Trending
+              posts={posts}
+            />
+
+          </div>
+
+        </aside>
 
       </div>
 
-      <!-- sidebar -->
+    </article>
 
-      <aside class="article-sidebar">
-
-        <Trending
-          posts={posts}
-        />
-
-      </aside>
-
-    </div>
-
-  </article>
+  </div>
 
 </MainLayout>
