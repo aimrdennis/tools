@@ -1,19 +1,44 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
+
+import NewsCard from "../../components/NewsCard.astro";
+import Trending from "../../components/Trending.astro";
+
 import { SITE } from "../../lib/site";
 
-import HeaderSection1 from "../../components/sec/HeaderSection1.astro";
-import FooterSection1 from "../../components/sec/FooterSection1.astro";
+import {
+  sortPosts,
+  publishedPosts
+} from "../../lib/utils";
 
-import { getCollection } from "astro:content";
+import {
+  getCollection
+} from "astro:content";
 
-// ambil blog
-let posts = await getCollection("blog");
+// get posts
 
-// sort terbaru (pakai date dari frontmatter)
-posts = posts.sort(
-  (a, b) => new Date(b.data.date) - new Date(a.data.date)
-);
+let posts =
+  await getCollection("blog");
+
+// publish only
+
+posts =
+  publishedPosts(posts);
+
+// latest first
+
+posts =
+  sortPosts(posts);
+
+// latest posts
+
+const latestPosts =
+  posts.slice(0, 12);
+
+// trending
+
+const trendingPosts =
+  posts.slice(0, 5);
 ---
 
 <MainLayout
@@ -22,86 +47,56 @@ posts = posts.sort(
   canonical={SITE.url("/blog")}
 >
 
-  <HeaderSection1 />
+  <!-- page title -->
 
-  <main>
+  <section class="section">
 
-    <h1>Blog</h1>
+    <div class="section-title">
 
-    <section class="grid">
+      <h1>
+        Latest Articles
+      </h1>
 
-      {posts.map((post) => (
-  <article class="card">
-    <a href={`/blog/${post.slug}/`}>
+    </div>
 
-      <img
-        src={SITE.url(`/api/og/${post.slug}.svg`)}
-        alt={post.data.title}
-        loading="lazy"
-        width="1200"
-        height="630"
-      />
+    <p>
+      Update terbaru seputar SEO,
+      AI, teknologi, crypto,
+      web development, dan digital tools.
+    </p>
 
-      <h2>{post.data.title}</h2>
+  </section>
 
-      {post.data.description && (
-        <p>{post.data.description}</p>
-      )}
+  <!-- content -->
 
-    </a>
-  </article>
-))}
+  <div class="main-grid">
+
+    <!-- left -->
+
+    <section>
+
+      <div class="blog-grid">
+
+        {latestPosts.map((post) => (
+
+          <NewsCard post={post} />
+
+        ))}
+
+      </div>
 
     </section>
 
-  </main>
+    <!-- right -->
 
-  <FooterSection1 />
+    <aside class="blog-sidebar">
+
+      <Trending
+        posts={trendingPosts}
+      />
+
+    </aside>
+
+  </div>
 
 </MainLayout>
-
-<style>
-  .grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:20px;
-    margin-top:20px;
-  }
-
-  .card{
-    border:1px solid #eee;
-    padding:16px;
-    border-radius:12px;
-    transition:0.2s;
-    background:#fff;
-  }
-
-  .card:hover{
-    transform:translateY(-3px);
-    box-shadow:0 10px 20px rgba(0,0,0,0.08);
-  }
-
-  a{
-    text-decoration:none;
-    color:inherit;
-  }
-
-  h2{
-    font-size:18px;
-    margin:0 0 8px;
-  }
-
-  p{
-    font-size:14px;
-    color:#666;
-    margin:0;
-  }
-.card img{
-  width:100%;
-  height:auto;
-  border-radius:10px;
-  margin-bottom:12px;
-  display:block;
-}
-
-</style>
