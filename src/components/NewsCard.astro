@@ -1,1 +1,94 @@
+---
+import { SITE } from "../lib/site";
 
+import {
+  formatDate,
+  excerpt,
+  readingTime
+} from "../lib/utils";
+
+const {
+  post
+} = Astro.props;
+
+const imageUrl =
+  SITE.url(`/api/og/${post.slug}.svg`);
+
+const postUrl =
+  `/blog/${post.slug}/`;
+
+const category =
+  post.data.category || "News";
+
+const description =
+  post.data.description ||
+  excerpt(post.body, 140);
+
+const date =
+  formatDate(post.data.date);
+
+const readTime =
+  readingTime(post.body);
+---
+
+<article class="news-card">
+
+  <a
+    href={postUrl}
+    aria-label={post.data.title}>
+
+    <!-- image -->
+
+    <div class="news-card-image">
+
+      <img
+        src={imageUrl}
+        alt={post.data.title}
+        loading="lazy"
+        width="1200"
+        height="630"
+      />
+
+    </div>
+
+    <!-- content -->
+
+    <div class="news-card-content">
+
+      <div class="news-card-category">
+
+        {category}
+
+      </div>
+
+      <h2 class="news-card-title">
+
+        {post.data.title}
+
+      </h2>
+
+      <p class="news-card-description">
+
+        {description}
+
+      </p>
+
+      <!-- meta -->
+
+      <div class="news-card-meta">
+
+        <span>
+          {date}
+        </span>
+
+        <span>
+          {readTime}
+        </span>
+
+      </div>
+
+    </div>
+
+  </a>
+
+</article>
