@@ -31,18 +31,26 @@ posts = posts.sort(
     <section class="grid">
 
       {posts.map((post) => (
-        <article class="card">
-          <a href={`/blog/${post.slug}/`}>
+  <article class="card">
+    <a href={`/blog/${post.slug}/`}>
 
-            <h2>{post.data.title}</h2>
+      <img
+        src={SITE.url(`/api/og/${post.slug}.svg`)}
+        alt={post.data.title}
+        loading="lazy"
+        width="1200"
+        height="630"
+      />
 
-            {post.data.description && (
-              <p>{post.data.description}</p>
-            )}
+      <h2>{post.data.title}</h2>
 
-          </a>
-        </article>
-      ))}
+      {post.data.description && (
+        <p>{post.data.description}</p>
+      )}
+
+    </a>
+  </article>
+))}
 
     </section>
 
