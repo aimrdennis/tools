@@ -111,26 +111,57 @@ import { SITE } from "../lib/site";
 
   <!-- navbar -->
 
-  <nav class="navbar">
+ <!-- navbar -->
 
-    <div class="container">
+<nav class="navbar">
 
-      <div class="nav-inner">
+  <div class="container">
 
-        {SITE.menu.map((item) => (
+    <div
+      class="nav-inner"
+      id="mobile-nav">
 
-          <a href={item.url}>
+      {SITE.menu.map((item) => (
 
-            {item.name}
+        <a href={item.url}>
 
-          </a>
+          {item.name}
 
-        ))}
+        </a>
 
-      </div>
+      ))}
 
     </div>
 
-  </nav>
+  </div>
+
+</nav>
+
+<!-- mobile toggle -->
+
+<script>
+
+  const button =
+    document.querySelector(
+      ".mobile-menu-button"
+    );
+
+  const nav =
+    document.querySelector(
+      "#mobile-nav"
+    );
+
+  button?.addEventListener(
+    "click",
+    () => {
+
+      nav?.classList.toggle(
+        "active"
+      );
+
+    }
+  );
+
+</script>
 
 </header>
