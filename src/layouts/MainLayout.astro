@@ -3,6 +3,7 @@ import SeoHead from "../components/SeoHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { generateFaqSchema } from "../lib/faq-schema";
+import "../styles/global.css";
 
 const {
   title,
@@ -15,6 +16,9 @@ const {
 } = Astro.props;
 
 const faqSchema = generateFaqSchema(html);
+
+
+
 ---
 
 <!doctype html>
@@ -29,7 +33,7 @@ const faqSchema = generateFaqSchema(html);
     faqSchema={faqSchema}
     amp={amp}
   />
-<link rel="stylesheet" href="/styles/global.css" />
+
 </head>
 
 <body>
