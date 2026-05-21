@@ -1,96 +1,356 @@
 ---
-import MainLayout from '../../layouts/MainLayout.astro';
-import { SITE } from '../../lib/site';
-import "../../styles/blog.css";
+import MainLayout from "../../layouts/MainLayout.astro";
+
+import TOC from "../../components/TOC.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
+import Trending from "../../components/Trending.astro";
 
-import HeaderSection1 from '../../components/sec/HeaderSection1.astro';
-import HeaderSection2 from '../../components/sec/HeaderSection2.astro';
-import HeaderSection3 from '../../components/sec/HeaderSection3.astro';
+import { SITE } from "../../lib/site";
 
-import FooterSection1 from '../../components/sec/FooterSection1.astro';
-import FooterSection2 from '../../components/sec/FooterSection2.astro';
+import {
+  formatDate,
+  readingTime,
+  sortPosts,
+  publishedPosts
+} from "../../lib/utils";
 
-import { getCollection, render } from 'astro:content';
+import {
+  getCollection,
+  render
+} from "astro:content";
+
+// ======================
+// STATIC PATHS
+// ======================
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
+
+  const posts =
+    await getCollection("blog");
 
   return posts.map((post) => ({
+
     params: {
       slug: post.slug
     },
+
     props: {
       post
     }
+
   }));
+
 }
 
-const { post } = Astro.props;
-const { Content, headings } = await render(post);
+// ======================
+// POST
+// ======================
 
+const {
+  post
+} = Astro.props;
 
-const posts = await getCollection("blog");
+// render markdown
+
+const {
+  Content,
+  remarkPluginFrontmatter
+} = await render(post);
+
+// all posts
+
+let posts =
+  await getCollection("blog");
+
+// publish only
+
+posts =
+  publishedPosts(posts);
+
+// latest first
+
+posts =
+  sortPosts(posts);
+
+// html for toc + faq
+
+const html =
+  remarkPluginFrontmatter?.html || "";
+
+// featured image
+
+const imageUrl =
+  SITE.url(`/api/og/${post.slug}.svg`);
+
+// meta
+
+const postUrl =
+  SITE.url(`/blog/${post.slug}`);
+
+const ampUrl =
+  SITE.url(`/blog/${post.slug}/amp`);
+
+const publishDate =
+  formatDate(post.data.date);
+
+const readTime =
+  readingTime(post.body);
+
+// schema
+
+const articleSchema = {
+
+  "@context": "https://schema.org",
+
+  "@type": "Article",
+
+  headline:
+    post.data.title,
+
+  description:
+    post.data.description,
+
+  image:
+    imageUrl,
+
+  datePublished:
+    post.data.date,
+
+  author: {
+
+    "@type": "Person",
+
+    name:
+      post.data.author ||
+      SITE.author
+
+  },
+
+  publisher: {
+
+    "@type": "Organization",
+
+    name:
+      SITE.title
+
+  },
+
+  mainEntityOfPage:
+    postUrl
+
+};
+
+// breadcrumbs
+
+const breadcrumbs = {
+
+  "@context":
+    "https://schema.org",
+
+  "@type":
+    "BreadcrumbList",
+
+  itemListElement: [
+
+    {
+      "@type":
+        "ListItem",
+
+      position: 1,
+
+      name: "Home",
+
+      item:
+        SITE.url()
+    },
+
+    {
+      "@type":
+        "ListItem",
+
+      position: 2,
+
+      name: "Blog",
+
+      item:
+        SITE.url("/blog")
+    },
+
+    {
+      "@type":
+        "ListItem",
+
+      position: 3,
+
+      name:
+        post.data.title,
+
+      item:
+        postUrl
+    }
+
+  ]
+
+};
 ---
 
 <MainLayout
   title={`${post.data.title} | ${SITE.title}`}
   description={post.data.description}
-  canonical={SITE.url(`/blog/${post.slug}`)}
-  amp={SITE.url(`/blog/${post.slug}/amp`)}
+  canonical={postUrl}
+  amp={ampUrl}
+  type="article"
+  image={imageUrl}
   slug={post.slug}
+  html={html}
+  articleSchema={articleSchema}
+  breadcrumbs={breadcrumbs}
 >
 
-  <HeaderSection1 />
-  <HeaderSection2 />
+  <article class="article-page">
 
-  <main>
+    <!-- header -->
 
-    <article>
+    <header class="article-header">
 
-      <h1>{post.data.title}</h1>
-<img
-  src={SITE.url(`/api/og/${post.slug}.svg`)}
-  alt={post.data.title}
-  loading="eager"
-  decoding="async"
-  fetchpriority="high"
-  width="1200"
-  height="630"
-/>
+      <!-- breadcrumb -->
 
-{headings.length > 0 && (
-  <details class="toc">
+      <div class="article-breadcrumb">
 
-    <summary class="toc-title">
-      <span>📑 Daftar Isi</span>
-      <span class="toc-toggle"></span>
-    </summary>
+        <a href="/">
+          Home
+        </a>
 
-    <ul>
+        <span>
+          /
+        </span>
 
-      {headings.map((heading) => (
-        <li class={`depth-${heading.depth}`}>
-          <a href={`#${heading.slug}`}>
-            {heading.text}
-          </a>
-        </li>
-      ))}
+        <a href="/blog/">
+          Blog
+        </a>
 
-    </ul>
+        <span>
+          /
+        </span>
 
-  </details>
-)}
+        <span>
+          {post.data.title}
+        </span>
 
-      <Content />
+      </div>
 
-<RelatedPosts
-  posts={posts}
-  currentSlug={post.slug}
-/>
+      <!-- category -->
 
-    </article>
+      <div class="article-category">
 
-  </main>
+        {post.data.category}
+
+      </div>
+
+      <!-- title -->
+
+      <h1 class="article-title">
+
+        {post.data.title}
+
+      </h1>
+
+      <!-- description -->
+
+      <p class="article-description">
+
+        {post.data.description}
+
+      </p>
+
+      <!-- meta -->
+
+      <div class="article-meta">
+
+        <div class="article-meta-item">
+
+          📅 {publishDate}
+
+        </div>
+
+        <div class="article-meta-item">
+
+          ⏱️ {readTime}
+
+        </div>
+
+        <div class="article-meta-item">
+
+          ✍️ {
+            post.data.author ||
+            SITE.author
+          }
+
+        </div>
+
+      </div>
+
+      <!-- image -->
+
+      <div class="article-featured-image">
+
+        <img
+          src={imageUrl}
+          alt={post.data.title}
+          width="1200"
+          height="630"
+        />
+
+      </div>
+
+    </header>
+
+    <!-- layout -->
+
+    <div class="article-layout">
+
+      <!-- content -->
+
+      <div class="article-main">
+
+        <div class="article-content">
+
+          <Content />
+
+        </div>
+
+        <!-- related -->
+
+        <RelatedPosts
+          posts={posts}
+          currentSlug={post.slug}
+          category={post.data.category}
+        />
+
+      </div>
+
+      <!-- sidebar -->
+
+      <aside>
+
+        <!-- toc -->
+
+        <TOC html={html} />
+
+        <!-- trending -->
+
+        <div class="mt-30">
+
+          <Trending
+            posts={posts}
+          />
+
+        </div>
+
+      </aside>
+
+    </div>
+
+  </article>
 
 </MainLayout>
