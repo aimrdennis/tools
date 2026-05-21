@@ -1,1 +1,395 @@
 
+:root{
+--primary:#21409a;
+--secondary:#ff6b00;
+
+--bg:#f4f6fb;
+--card:#ffffff;
+
+--text:#111827;
+--muted:#6b7280;
+
+--border:#e5e7eb;
+
+--shadow:
+0 10px 30px rgba(0,0,0,.05);
+
+--radius:24px;
+
+--container:1280px
+}
+
+/* reset */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box
+}
+
+html{
+scroll-behavior:smooth
+}
+
+body{
+font-family:
+Inter,
+system-ui,
+sans-serif;
+
+background:var(--bg);
+color:var(--text);
+
+line-height:1.7;
+
+text-rendering:optimizeLegibility;
+-webkit-font-smoothing:antialiased
+}
+
+img{
+max-width:100%;
+display:block
+}
+
+a{
+color:inherit;
+text-decoration:none
+}
+
+button,
+input,
+textarea{
+font:inherit
+}
+
+ul,
+ol{
+padding-left:20px
+}
+
+/* layout */
+
+.container{
+width:100%;
+max-width:var(--container);
+
+margin:auto;
+padding-left:16px;
+padding-right:16px
+}
+
+.section{
+margin-top:40px;
+margin-bottom:40px
+}
+
+/* typography */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+line-height:1.3;
+font-weight:800;
+color:var(--text)
+}
+
+h1{
+font-size:42px
+}
+
+h2{
+font-size:32px
+}
+
+h3{
+font-size:24px
+}
+
+p{
+margin-bottom:16px;
+color:var(--muted)
+}
+
+/* card */
+
+.card{
+background:var(--card);
+
+border-radius:var(--radius);
+
+border:1px solid var(--border);
+
+box-shadow:var(--shadow)
+}
+
+/* buttons */
+
+.btn{
+height:48px;
+
+display:inline-flex;
+align-items:center;
+justify-content:center;
+
+padding:0 22px;
+
+border:none;
+border-radius:14px;
+
+cursor:pointer;
+
+font-weight:700;
+
+transition:.2s
+}
+
+.btn-primary{
+background:var(--primary);
+color:#fff
+}
+
+.btn-primary:hover{
+transform:translateY(-2px)
+}
+
+.btn-secondary{
+background:var(--secondary);
+color:#fff
+}
+
+/* badge */
+
+.badge{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+
+height:32px;
+
+padding:0 14px;
+
+border-radius:999px;
+
+font-size:13px;
+font-weight:700;
+
+background:rgba(33,64,154,.08);
+color:var(--primary)
+}
+
+/* section title */
+
+.section-title{
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+margin-bottom:22px
+}
+
+.section-title h2{
+font-size:28px;
+font-weight:900
+}
+
+/* grid */
+
+.grid{
+display:grid;
+gap:24px
+}
+
+/* utilities */
+
+.flex{
+display:flex
+}
+
+.items-center{
+align-items:center
+}
+
+.justify-between{
+justify-content:space-between
+}
+
+.gap-10{
+gap:10px
+}
+
+.gap-20{
+gap:20px
+}
+
+.mt-20{
+margin-top:20px
+}
+
+.mt-30{
+margin-top:30px
+}
+
+.mt-40{
+margin-top:40px
+}
+
+.mb-20{
+margin-bottom:20px
+}
+
+.mb-30{
+margin-bottom:30px
+}
+
+.mb-40{
+margin-bottom:40px
+}
+
+.text-center{
+text-align:center
+}
+
+/* article */
+
+.article-content{
+font-size:17px;
+line-height:1.9
+}
+
+.article-content h2,
+.article-content h3,
+.article-content h4{
+margin-top:34px;
+margin-bottom:16px
+}
+
+.article-content p{
+margin-bottom:20px
+}
+
+.article-content img{
+margin:28px auto;
+border-radius:20px
+}
+
+.article-content a{
+color:var(--primary);
+font-weight:600
+}
+
+.article-content blockquote{
+margin:28px 0;
+
+padding:20px 24px;
+
+border-left:4px solid var(--primary);
+
+background:#eef3ff;
+
+border-radius:18px
+}
+
+.article-content pre{
+overflow:auto;
+
+padding:20px;
+
+background:#0f172a;
+color:#fff;
+
+border-radius:18px;
+
+margin:28px 0
+}
+
+.article-content code{
+font-family:monospace
+}
+
+.article-content table{
+width:100%;
+border-collapse:collapse;
+margin:28px 0
+}
+
+.article-content table th,
+.article-content table td{
+padding:14px;
+border:1px solid var(--border)
+}
+
+.article-content table th{
+background:#f8fafc
+}
+
+/* forms */
+
+.input{
+width:100%;
+height:50px;
+
+padding:0 16px;
+
+border:1px solid var(--border);
+
+border-radius:14px;
+
+outline:none;
+
+background:#fff
+}
+
+.input:focus{
+border-color:var(--primary)
+}
+
+/* responsive */
+
+@media(max-width:1024px){
+
+h1{
+font-size:34px
+}
+
+h2{
+font-size:28px
+}
+
+}
+
+@media(max-width:768px){
+
+body{
+font-size:15px
+}
+
+.container{
+padding-left:14px;
+padding-right:14px
+}
+
+h1{
+font-size:28px
+}
+
+h2{
+font-size:24px
+}
+
+h3{
+font-size:20px
+}
+
+.section{
+margin-top:30px;
+margin-bottom:30px
+}
+
+.article-content{
+font-size:16px
+}
+
+}
