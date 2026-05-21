@@ -1,16 +1,175 @@
-
 ---
 import { SITE } from "../lib/site";
+
+const year = new Date().getFullYear();
 ---
 
-<footer>
-  <p>© {new Date().getFullYear()} {SITE.name}</p>
-</footer>
+<footer class="site-footer">
 
-<style>
-footer{
-  padding:2rem 1rem;
-  border-top:1px solid #ddd;
-  text-align:center;
-}
-</style>
+  <!-- footer top -->
+
+  <div class="footer-top">
+
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <!-- brand -->
+
+        <div class="footer-brand">
+
+          <h3>
+            {SITE.title}
+          </h3>
+
+          <p>
+            Portal berita modern seputar SEO, AI,
+            teknologi, crypto, tools, dan digital
+            marketing dengan tampilan cepat,
+            ringan, dan SEO friendly.
+          </p>
+
+        </div>
+
+        <!-- kategori -->
+
+        <div class="footer-links">
+
+          <h4>
+            Category
+          </h4>
+
+          <ul>
+
+            <li>
+              <a href="/category/seo/">
+                SEO
+              </a>
+            </li>
+
+            <li>
+              <a href="/category/ai/">
+                AI
+              </a>
+            </li>
+
+            <li>
+              <a href="/category/crypto/">
+                Crypto
+              </a>
+            </li>
+
+            <li>
+              <a href="/category/tools/">
+                Tools
+              </a>
+            </li>
+
+          </ul>
+
+        </div>
+
+        <!-- halaman -->
+
+        <div class="footer-links">
+
+          <h4>
+            Pages
+          </h4>
+
+          <ul>
+
+            <li>
+              <a href="/">
+                Home
+              </a>
+            </li>
+
+            <li>
+              <a href="/blog/">
+                Blog
+              </a>
+            </li>
+
+            <li>
+              <a href="/rss.xml">
+                RSS
+              </a>
+            </li>
+
+            <li>
+              <a href="/sitemap.xml">
+                Sitemap
+              </a>
+            </li>
+
+          </ul>
+
+        </div>
+
+        <!-- social -->
+
+        <div class="footer-links">
+
+          <h4>
+            Social
+          </h4>
+
+          <ul>
+
+            <li>
+              <a
+                href={SITE.social.github}
+                target="_blank"
+                rel="noopener noreferrer">
+
+                Github
+
+              </a>
+            </li>
+
+            <li>
+              <a
+                href={`https://twitter.com/${SITE.social.twitter.replace("@","")}`}
+                target="_blank"
+                rel="noopener noreferrer">
+
+                Twitter
+
+              </a>
+            </li>
+
+          </ul>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- footer bottom -->
+
+  <div class="footer-bottom">
+
+    <div class="container">
+
+      <div class="footer-bottom-inner">
+
+        <p>
+          © {year} {SITE.title}.
+          All rights reserved.
+        </p>
+
+        <p>
+          Built with Astro • SEO Optimized • AMP Ready
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
