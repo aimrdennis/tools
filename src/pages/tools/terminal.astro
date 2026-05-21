@@ -1,0 +1,259 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+
+const title = "Terminal Simulator";
+---
+
+<MainLayout title={title}>
+
+<section class="wrapper">
+
+  <div class="terminal">
+
+    <div class="topbar">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
+
+      <div class="top-title">
+        terminal-simulator
+      </div>
+    </div>
+
+    <div class="screen" id="screen">
+
+      <div class="output success">
+Welcome to Astro Terminal Simulator
+
+Type "help" to show commands
+      </div>
+
+      <div class="line">
+        <span class="prompt">guest@astro:~$</span>
+        <input id="command" autofocus />
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<style>
+  .wrapper{
+    min-height:100vh;
+    background:#0f1115;
+    padding:40px 20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
+
+  .terminal{
+    width:100%;
+    max-width:900px;
+    height:600px;
+    background:#111827;
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid #1f2937;
+    box-shadow:0 20px 60px rgba(0,0,0,.5);
+  }
+
+  .topbar{
+    height:48px;
+    background:#1f2937;
+    display:flex;
+    align-items:center;
+    padding:0 16px;
+    gap:10px;
+  }
+
+  .dot{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+  }
+
+  .red{
+    background:#ff5f56;
+  }
+
+  .yellow{
+    background:#ffbd2e;
+  }
+
+  .green{
+    background:#27c93f;
+  }
+
+  .top-title{
+    margin-left:10px;
+    color:#9ca3af;
+    font-size:14px;
+    font-family:monospace;
+  }
+
+  .screen{
+    height:calc(100% - 48px);
+    overflow-y:auto;
+    padding:20px;
+    font-family:monospace;
+    font-size:15px;
+    line-height:1.6;
+    color:#fff;
+  }
+
+  .line{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  .prompt{
+    color:#00ff88;
+    white-space:nowrap;
+  }
+
+  input{
+    width:100%;
+    background:transparent;
+    border:none;
+    outline:none;
+    color:#fff;
+    font-family:monospace;
+    font-size:15px;
+  }
+
+  .output{
+    margin-bottom:12px;
+    white-space:pre-wrap;
+  }
+
+  .success{
+    color:#22c55e;
+  }
+
+  .error{
+    color:#ef4444;
+  }
+
+  .info{
+    color:#60a5fa;
+  }
+</style>
+
+<script>
+  const screen = document.getElementById('screen');
+  const input = document.getElementById('command');
+
+  const commands = {
+    help: `
+Available commands:
+
+help     Show commands
+about    About simulator
+clear    Clear screen
+date     Current date
+echo     Print text
+whoami   Current user
+astro    Astro info
+    `,
+
+    about: `
+Simple terminal simulator built with Astro.
+    `,
+
+    whoami: `
+guest
+    `,
+
+    astro: `
+Astro is a modern static web framework.
+    `
+  };
+
+  function addOutput(text, className = 'output') {
+
+    const div = document.createElement('div');
+
+    div.className = className;
+    div.textContent = text;
+
+    screen.insertBefore(
+      div,
+      screen.lastElementChild
+    );
+  }
+
+  function addCommand(cmd){
+
+    const div = document.createElement('div');
+
+    div.className = 'output';
+
+    div.innerHTML = `
+guest@astro:~$ ${cmd}
+    `;
+
+    screen.insertBefore(
+      div,
+      screen.lastElementChild
+    );
+  }
+
+  input.addEventListener('keydown', (e) => {
+
+    if(e.key === 'Enter'){
+
+      const value = input.value.trim();
+
+      addCommand(value);
+
+      if(value === 'clear'){
+
+        location.reload();
+        return;
+      }
+
+      else if(value === 'date'){
+
+        addOutput(
+          new Date().toString(),
+          'info'
+        );
+      }
+
+      else if(value.startsWith('echo ')){
+
+        addOutput(
+          value.replace('echo ', '')
+        );
+      }
+
+      else if(commands[value]){
+
+        addOutput(
+          commands[value],
+          'success'
+        );
+      }
+
+      else if(value !== ''){
+
+        addOutput(
+          `Command not found: ${value}`,
+          'error'
+        );
+      }
+
+      input.value = '';
+
+      screen.scrollTop =
+        screen.scrollHeight;
+    }
+
+  });
+</script>
+
+</MainLayout>

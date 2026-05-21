@@ -1,0 +1,91 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import { SITE } from "../../lib/site";
+
+import HeaderSection1 from "../../components/sec/HeaderSection1.astro";
+import FooterSection1 from "../../components/sec/FooterSection1.astro";
+
+import { getCollection } from "astro:content";
+
+// ambil blog
+let posts = await getCollection("blog");
+
+// sort terbaru (pakai date dari frontmatter)
+posts = posts.sort(
+  (a, b) => new Date(b.data.date) - new Date(a.data.date)
+);
+---
+
+<MainLayout
+  title={`Blog | ${SITE.title}`}
+  description={SITE.description}
+  canonical={SITE.url("/blog")}
+>
+
+  <HeaderSection1 />
+
+  <main>
+
+    <h1>Blog</h1>
+
+    <section class="grid">
+
+      {posts.map((post) => (
+        <article class="card">
+          <a href={`/blog/${post.slug}/`}>
+
+            <h2>{post.data.title}</h2>
+
+            {post.data.description && (
+              <p>{post.data.description}</p>
+            )}
+
+          </a>
+        </article>
+      ))}
+
+    </section>
+
+  </main>
+
+  <FooterSection1 />
+
+</MainLayout>
+
+<style>
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:20px;
+    margin-top:20px;
+  }
+
+  .card{
+    border:1px solid #eee;
+    padding:16px;
+    border-radius:12px;
+    transition:0.2s;
+    background:#fff;
+  }
+
+  .card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 20px rgba(0,0,0,0.08);
+  }
+
+  a{
+    text-decoration:none;
+    color:inherit;
+  }
+
+  h2{
+    font-size:18px;
+    margin:0 0 8px;
+  }
+
+  p{
+    font-size:14px;
+    color:#666;
+    margin:0;
+  }
+</style>

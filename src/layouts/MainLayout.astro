@@ -1,0 +1,59 @@
+perbaiki biar bisa manggil amphtml 
+---
+import SeoHead from "../components/SeoHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { generateFaqSchema } from "../lib/faq-schema";
+
+const {
+  title,
+  description,
+  canonical,
+  html = "",
+  articleSchema,
+  breadcrumbs,
+  amp
+} = Astro.props;
+
+const faqSchema = generateFaqSchema(html);
+---
+
+<!doctype html>
+<html lang="id">
+<head>
+  <SeoHead
+    title={title}
+    description={description}
+    canonical={canonical}
+    articleSchema={articleSchema}
+    breadcrumbs={breadcrumbs}
+    faqSchema={faqSchema}
+    amp={amp}
+  />
+</head>
+
+<body>
+  <Header />
+
+  <main>
+    <slot />
+  </main>
+
+  <Footer />
+</body>
+</html>
+
+<style>
+  :global(body){
+    margin:0;
+    font-family:system-ui,sans-serif;
+    color:#111;
+    background:#fff;
+  }
+
+  :global(main){
+    max-width:1100px;
+    margin:auto;
+    padding:2rem 1rem;
+  }
+</style>

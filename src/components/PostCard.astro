@@ -1,0 +1,16 @@
+---
+const { post } = Astro.props;
+---
+
+<article class="card">
+  <a href={`/blog/${post.slug}/`}>
+    <h2>{post.data.title}</h2>
+  </a>
+  <p>{post.data.description}</p>
+</article>
+
+<style>
+.card{padding:1.5rem;border:1px solid #e5e7eb;border-radius:12px;background:#fff}
+h2{margin:0 0 .5rem}
+a{text-decoration:none;color:#111827}
+</style>

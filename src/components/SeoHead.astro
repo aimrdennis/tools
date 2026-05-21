@@ -1,0 +1,103 @@
+---
+import { SITE } from "../lib/site";
+import {
+  organizationSchema,
+  websiteSchema
+} from "../lib/schema";
+
+const {
+  title = SITE.title,
+  description = SITE.description,
+  canonical = SITE.url(),
+  image = null,
+  slug = "",
+  type = "website",
+  faqSchema = null,
+  articleSchema = null,
+  breadcrumbs = null,
+  amp = null
+} = Astro.props;
+
+// AUTO OG IMAGE
+const imageUrl = slug
+  ? SITE.url(`/api/og/${slug}.svg`)
+  : SITE.imageUrl(SITE.image);
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+
+<title>{title}</title>
+
+<meta name="description" content={description} />
+<meta name="author" content={SITE.author} />
+<meta name="theme-color" content={SITE.themeColor} />
+
+<meta
+  name="robots"
+  content="index,follow,max-image-preview:large"
+/>
+
+<link rel="canonical" href={canonical} />
+<link rel="alternate" hreflang="id-ID" href={canonical} />
+
+{amp && (
+  <link rel="amphtml" href={amp} />
+)}
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:url" content={canonical} />
+<meta property="og:site_name" content={SITE.title} />
+
+<!-- Twitter -->
+<meta
+  name="twitter:card"
+  content="summary_large_image"
+/>
+
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+
+<!-- preload -->
+<link
+  rel="preload"
+  href={imageUrl}
+  as="image"
+/>
+
+<!-- schema -->
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify(organizationSchema)}
+/>
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify(websiteSchema)}
+/>
+
+{breadcrumbs && (
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(breadcrumbs)}
+  />
+)}
+
+{articleSchema && (
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(articleSchema)}
+  />
+)}
+
+{faqSchema && (
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(faqSchema)}
+  />
+)}

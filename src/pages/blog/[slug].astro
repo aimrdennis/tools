@@ -1,0 +1,55 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { SITE } from '../../lib/site';
+
+import HeaderSection1 from '../../components/sec/HeaderSection1.astro';
+import HeaderSection2 from '../../components/sec/HeaderSection2.astro';
+import HeaderSection3 from '../../components/sec/HeaderSection3.astro';
+
+import FooterSection1 from '../../components/sec/FooterSection1.astro';
+import FooterSection2 from '../../components/sec/FooterSection2.astro';
+
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+
+  return posts.map((post) => ({
+    params: {
+      slug: post.slug
+    },
+    props: {
+      post
+    }
+  }));
+}
+
+const { post } = Astro.props;
+
+const { Content } = await render(post);
+---
+
+<MainLayout
+  title={`${post.data.title} | ${SITE.title}`}
+  description={post.data.description}
+  canonical={SITE.url(`/blog/${post.slug}`)}
+  amp={SITE.url(`/blog/${post.slug}/amp`)}
+>
+
+  <HeaderSection1 />
+  <HeaderSection2 />
+
+  <main>
+
+    <article>
+
+      <h1>{post.data.title}</h1>
+
+      <Content />
+
+    </article>
+
+  </main>
+
+
+</MainLayout>
