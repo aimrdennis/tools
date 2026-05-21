@@ -1,1 +1,64 @@
+---
+import {
+  formatDate
+} from "../lib/utils";
 
+const {
+  posts = []
+} = Astro.props;
+
+const trendingPosts =
+  posts.slice(0, 5);
+---
+
+<aside class="sidebar-widget">
+
+  <div class="sidebar-widget-title">
+
+    🔥 Trending Posts
+
+  </div>
+
+  <div class="trending-posts">
+
+    {trendingPosts.map((post, index) => (
+
+      <article class="trending-post">
+
+        <!-- number -->
+
+        <div class="trending-post-number">
+
+          {String(index + 1).padStart(2, "0")}
+
+        </div>
+
+        <!-- content -->
+
+        <div class="trending-post-content">
+
+          <a href={`/blog/${post.slug}/`}>
+
+            <h3>
+
+              {post.data.title}
+
+            </h3>
+
+          </a>
+
+          <p>
+
+            {formatDate(post.data.date)}
+
+          </p>
+
+        </div>
+
+      </article>
+
+    ))}
+
+  </div>
+
+</aside>
