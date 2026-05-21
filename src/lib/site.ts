@@ -1,8 +1,8 @@
 
 export const SITE = {
-  name: "LebahHack",
+  name: "Ai Mr Dennis",
 
-  title: "Ai Mr Dennis",
+  title: "Tools Ai Mr Dennis",
 
   description: "Ai Mr Dennis Website modern",
 
