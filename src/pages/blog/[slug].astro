@@ -28,6 +28,8 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content, headings } = await render(post);
+
+
 const posts = await getCollection("blog");
 ---
 
@@ -82,7 +84,10 @@ const posts = await getCollection("blog");
 
       <Content />
 
-
+<RelatedPosts
+  posts={posts}
+  currentSlug={post.slug}
+/>
 
     </article>
 
