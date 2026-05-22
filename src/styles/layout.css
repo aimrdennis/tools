@@ -365,26 +365,56 @@ MOBILE
     padding:40px 0 20px;
   }
 
+  /* GRID */
+
   .footer-grid{
     grid-template-columns:1fr;
 
-    gap:28px;
+    gap:30px;
   }
+
+  /* BRAND */
 
   .footer-brand{
-    padding-bottom:10px;
+    padding-bottom:20px;
 
     border-bottom:
-      1px solid rgba(255,255,255,.08);
+    1px solid rgba(255,255,255,.08);
   }
 
+  /* LINKS GRID 2 KOLOM */
+
+  .footer-links-wrap{
+    display:grid;
+
+    grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+    gap:24px 18px;
+  }
+
+  /* TITLE */
+
   .footer-links h4{
-    margin-bottom:12px;
+    margin-bottom:14px;
+
+    font-size:16px;
+  }
+
+  /* LIST */
+
+  .footer-links ul{
+    display:flex;
+    flex-direction:column;
+
+    gap:10px;
   }
 
   .footer-links li{
-    margin-bottom:10px;
+    margin:0;
   }
+
+  /* BOTTOM */
 
   .footer-bottom-inner{
     flex-direction:column;
@@ -394,7 +424,6 @@ MOBILE
   }
 
 }
-
 /* =========================
    MOBILE MENU
 ========================= */
