@@ -362,3 +362,72 @@
 .footer-brand span{
   color:var(--primary);
 }
+
+
+
+
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+display:flex;
+flex-direction:column;
+gap:24px
+}
+
+.sidebar-card{
+padding:24px;
+
+background:#fff;
+
+border:1px solid var(--border);
+
+border-radius:var(--radius);
+
+box-shadow:var(--shadow)
+}
+
+.sidebar-title{
+font-size:24px;
+font-weight:900;
+
+margin-bottom:20px
+}
+
+/* trending */
+
+.trending-list{
+display:flex;
+flex-direction:column;
+gap:18px
+}
+
+.trending-item{
+display:flex;
+gap:16px
+}
+
+.trending-number{
+flex-shrink:0;
+
+font-size:34px;
+line-height:1;
+
+font-weight:900;
+
+color:rgba(33,64,154,.15)
+}
+
+.trending-content h3{
+font-size:16px;
+line-height:1.5;
+font-weight:800
+}
+
+.trending-content p{
+font-size:14px;
+margin-top:6px
+}
