@@ -207,19 +207,12 @@ OVERLAY TITLE
 ========================= */
 
 .news-card-title{
-  font-size:34px;
+  font-size:25px;
   line-height:1.1;
-
   font-weight:800;
-
-  color:#fff;
-
+  color:blue;
   margin-top:auto;
-
-  max-width:92%;
-
-  text-shadow:
-    0 2px 12px rgba(0,0,0,.4);
+  max-width:90%;
 }
 
 /* =========================
@@ -514,7 +507,7 @@ height:220px
 }
 
 .news-card-content{
-padding:20px
+padding:40px
 }
 
 .news-card-title{
